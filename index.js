@@ -1,43 +1,39 @@
 const hojas = document.querySelectorAll(".hoja")
-const estanque = document.querySelector(".estanque")
 const boton = document.querySelector("button")
 
-console.log(hojas)
-console.log(estanque)
+let localizacion = 0;
+let retroceder = false;
 
 boton.addEventListener("click", function () {
     console.log(hojas)
     saltar()
-   // hojas[2].classList.add("rana")
 })
 
 function saltar() {
-    // const destino = localizar(estanque,"rana")
-    /*const laHojaAnterior = 1
-    const laOtraHoja = 2
-    if(hojas[laHojaAnterior].classList.contains('rana')){
-        hojas[laHojaAnterior].classList.remove('rana')
-        hojas[laOtraHoja].classList.add('rana')
-    } else {
-        hojas[laHojaAnterior].classList.add('rana')
-        hojas[laOtraHoja].classList.remove('rana')
-    }*/
+    const destino = calcularDestino()
+    hojas[localizacion].classList.remove('rana') // este es el destino
+    hojas[destino].classList.add('rana')
+    localizacion = destino
 
-    const ubiRana = localizar(hojas);
-    console.log(ubiRana)
-    if (ubiRana > -1 && ubiRana < hojas.length - 1) {
-        hojas[ubiRana].classList.remove('rana')
-        hojas[ubiRana + 1].classList.add('rana')
-    } else {
-        hojas[hojas.length - 1].classList.remove('rana')
-        hojas[0].classList.add('rana')
+    //estoy en el inicio tenemos que cambiar la direccion
+
+    if(localizacion === 0) {
+        retroceder = false
+    }
+
+    //estoy en el final tenemos que regresar
+
+    if(localizacion === hojas.length - 1){ 
+        retroceder = true
     }
 }
 
-function localizar(espacio) {
-    for (let i = 0; i < espacio.length; i++) {
-        if (espacio[i].classList.contains('rana')) {
-            return i;
-        }
+function calcularDestino(){
+    if(retroceder){
+        return localizacion - 1
     }
+
+    return localizacion + 1
 }
+
+hojas[localizacion].classList.add('rana')
